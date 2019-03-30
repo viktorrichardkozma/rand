@@ -1,0 +1,13 @@
+export const VALIDATED_TOKEN ='VALIDATED_TOKEN';
+export const VALIDATION_ERROR ='VALIDATION_ERROR';
+export const GET_EVENTS ='GET_EVENTS';
+export const EVENTS_LOADING='EVENTS_LOADING'
+export const GET_ERRORS ='GET_ERRORS';
+
+
+
+
+
+
+
+ 

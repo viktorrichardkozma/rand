@@ -107,7 +107,9 @@ class Events extends Component {
     let id = event.currentTarget.getAttribute('value')
     let url ='https://www.facebook.com/sharer/sharer.php?u='+'https://frozen-lake-61201.herokuapp.com/'+this.state.token+"/"+id
     window.location.replace(url)
+    console.log(url)
   }
+
 
   openNewSessionDialog = () => {
     this.setState({isDialogOpen:true});   

@@ -120,7 +120,6 @@ class VideoView extends Component {
     }) : (null)
 
     let videoURL = found ? (found.items).find((video) => {
-      console.log(video.created +  " "+ timestamp)
        return  (video.created == timestamp)
     }) : (null)
 

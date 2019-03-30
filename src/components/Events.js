@@ -38,12 +38,10 @@ const styles = theme => ({
     }, 
     root: {
       flexGrow: 1,
-      height: '100vh'
     },
     toolbar: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      padding: theme.spacing.unit * 3,
       backgroundColor:'black'
     },
     eventsContent:{
@@ -124,19 +122,69 @@ class Events extends Component {
     ))) : (<CircularProgress className={classes.progress} size={24}/>)
 
     return (
+
+
       <div className={classes.root} style={{backgroundColor:'black'}}>
-        <AppBar position="fixed" style={{ backgroundColor: 'transparent',
-      color: 'white',
-      borderBottom: '0.1px solid'}}>
-          <Toolbar className="classes.tool" >
-            <Typography variant="h6" color="inherit" noWrap>
-                <b>KORÁBBI ESEMÉNYEK</b>
-            </Typography>
-          </Toolbar>
-        </AppBar>
+
+
+
+
+
+
+
+
+
+<header className="header" id="header" style={{minHeight:'auto'}}>
+              <nav className="mobile-nav">
+                <div className="dropdown_button">
+                  <img className="menu_button" src="images/icon_menu_hamburger.svg" />
+                </div>
+                <div className="drop-down-menu" id="drop-down">
+                  <ul>
+                    <li>
+                      <a href="/#aboutus">RÓLUNK</a>
+                    </li>
+                    <li>
+                      <a href="/#details"> RÉSZLETEK </a>
+                    </li>
+                    <li>
+                      <a href="/#gallery"> GALÉRIA </a>
+                    </li>
+                    <li>
+                      <a href="/#contact"> KAPCSOLAT </a>
+                    </li>
+                    <ul>
+                    </ul></ul></div>
+                <img style={{height: '15px', position: 'relative', top: '-2px', left: '17px'}} className="menu-logo" src="icons/menulogo.svg" />
+              </nav>
+        
+              <div className="menu-logo-wrapper">
+                <img className="menu-logo" src="icons/menulogo.svg" />
+                <menu>
+                  <ul>
+                    <li>
+                      <a href="/#aboutus">RÓLUNK</a>
+                    </li>
+                    <li>
+                      <a href="/#details"> RÉSZLETEK </a>
+                    </li>
+                    <li>
+                      <a href="/#gallery"> GALÉRIA </a>
+                    </li>
+                    <li>
+                      <a href="/#contact"> KAPCSOLAT </a>
+                    </li>
+                    <ul>
+                    </ul></ul></menu>
+              </div>
+            </header>
+
+
         <Grid container spacing={12} >
+
           <main className={classes.content}>
-            <div className={classes.toolbar} />
+          <Typography style={{color:'white',padding:'20px 0px 10px 0px',textAlign: 'center'}}variant="h6" > <b>KORÁBBI ESEMÉNYEINK </b></Typography>
+
             <div className={classes.eventsContent}>
               {eventsContent}
             </div>

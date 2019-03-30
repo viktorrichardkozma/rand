@@ -583,7 +583,7 @@ footer .footer-content-wrapper .icons{
 		flex-wrap: wrap;
 		}
 
-		.contact-subsection .contact-subsection-left{
+	.contact-subsection .contact-subsection-left{
 			padding:0 10%;
 		}
 
@@ -600,7 +600,7 @@ footer .footer-content-wrapper .icons{
 	}
 
 	header{
-		height:100%;
+		min-height: auto;
 	}
 	
 	header menu, header .menu-logo-wrapper, header .header-background-video{
@@ -611,8 +611,6 @@ footer .footer-content-wrapper .icons{
 		width: auto;
 	}
 	
-	header{
-	}
 
 	footer .footer-content-wrapper{
 		flex-direction:column;
@@ -811,10 +809,6 @@ footer .footer-content-wrapper .icons{
 	
 	.video-wrapper{
 		width:90%;
-	}
-	
-	.close{
-		display:none;
 	}
 
 }

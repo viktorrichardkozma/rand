@@ -44,18 +44,22 @@ $(document).ready(function() {
 					var phone = document.getElementsByName("phone")[0].value;
 					var message = document.getElementsByName("message")[0].value;
 					
+					var data;
 				        if (name==null || name=="",mail==null || mail=="",phone==null || phone=="",message==null || message==""){
 							$('.allthefields').html("All fields are required. <div class=\"error-box-close\">X</div>");
 							$('.errorwrapper').css("visibility","visible");
 							close();
+							data = {
+								access_token: "m94q97i0wfajms14r8pxh722",
+								name: name,
+								mail: mail,
+								phone: phone,
+								message: message
+							};
 						} else {
-								$.post("add_mail.php",
-								{
-									name: name,
-									mail: mail,
-									phone: phone,
-									message: message
-								},
+								$.post('https://postmail.invotes.com/send',
+								data
+								,
 								function(data, status){
 									if(data==="sent"){
 										$('.contact-subsection-left-wrapper').css("color","white");

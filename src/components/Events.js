@@ -34,7 +34,7 @@ const styles = theme => ({
       margin:'15px'
     },
     media: {
-      height: 140,
+      height: 220,
     }, 
     root: {
       flexGrow: 1,
@@ -74,11 +74,13 @@ class Events extends Component {
     this.setState({'token': value})
   };
 
-  openNewSessionDialog = () => {
+  openNewSessionDialog = event => {
+    event.preventDefault()
     this.setState({isDialogOpen:true});   
   }
 
-  cancelNewSessionDialog = () => {
+  cancelNewSessionDialog = event => {
+    event.preventDefault()
     this.setState({isDialogOpen:false});
   };
 
@@ -97,7 +99,7 @@ class Events extends Component {
     let eventsContent= (this.props.events.events) ? (this.props.events.events.map(event =>(
       <Grid key={event.id} item xs={12} sm={4} md={3} lg={2}>
         <Card className={classes.card}>
-        <CardActionArea>
+        <CardActionArea style={{cursor:'pointer'}} id={event.id} onClick={this.openNewSessionDialog} >
           <CardMedia
             className={classes.media}
             image={event.thumbnailURL}
@@ -113,7 +115,7 @@ class Events extends Component {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button id={event.id} size="small" onClick={this.openNewSessionDialog} color="primary">
+          <Button style={{cursor:'pointer'}} id={event.id} onClick={this.openNewSessionDialog} color="primary">
             Megtekintés
           </Button>
         </CardActions>

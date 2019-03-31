@@ -154,7 +154,7 @@ class Events extends Component {
         ))) : (<CircularProgress className={classes.progress} size={24}/>)
     return (
       <div className={classes.root} style={{backgroundColor:'black'}}>
-          <header className="header" id="header" style={{minHeight:'auto'}}>
+          <header className="header" id="header" style={{minHeight:'100px'}}>
           <AppBar/>
               </header>
           <main className={classes.content}>

@@ -8,7 +8,7 @@ import FormDialog from './Dialog'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from './AppBar'
 import Toolbar from '@material-ui/core/Toolbar';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -135,48 +135,8 @@ class Events extends Component {
 
 
 <header className="header" id="header" style={{minHeight:'auto'}}>
-              <nav className="mobile-nav">
-                <div className="dropdown_button">
-                  <img className="menu_button" src="images/icon_menu_hamburger.svg" />
-                </div>
-                <div className="drop-down-menu" id="drop-down">
-                  <ul>
-                    <li>
-                      <a href="/#aboutus">RÓLUNK</a>
-                    </li>
-                    <li>
-                      <a href="/#details"> RÉSZLETEK </a>
-                    </li>
-                    <li>
-                      <a href="/#gallery"> GALÉRIA </a>
-                    </li>
-                    <li>
-                      <a href="/#contact"> KAPCSOLAT </a>
-                    </li>
-                    <ul>
-                    </ul></ul></div>
-                <img style={{height: '15px', position: 'relative', top: '-2px', left: '17px'}} className="menu-logo" src="icons/menulogo.svg" />
-              </nav>
-        
-              <div className="menu-logo-wrapper">
-                <img className="menu-logo" src="icons/menulogo.svg" />
-                <menu>
-                  <ul>
-                    <li>
-                      <a href="/#aboutus">RÓLUNK</a>
-                    </li>
-                    <li>
-                      <a href="/#details"> RÉSZLETEK </a>
-                    </li>
-                    <li>
-                      <a href="/#gallery"> GALÉRIA </a>
-                    </li>
-                    <li>
-                      <a href="/#contact"> KAPCSOLAT </a>
-                    </li>
-                    <ul>
-                    </ul></ul></menu>
-              </div>
+<AppBar/>
+
             </header>
 
 

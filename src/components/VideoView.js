@@ -128,7 +128,7 @@ class VideoView extends Component {
       controls={[]}>
       <source src={videoURL.url}  type="video/mp4" />
       </Video>)
-    : ("Nem található ilyen 360selfie.")
+    : (null)
 
     return (
       <div className={classes.root} style={{backgroundColor:'black'}}>
@@ -138,10 +138,8 @@ class VideoView extends Component {
             <meta property="og:title" content={(found) ? ("360selfie - " + found.name):("loading") } />
             <meta property="og:video" content="" />
           </MetaTags> 
-        <AppBar position="fixed" style={{ backgroundColor: 'transparent', color: 'white'}}>
-          <Toolbar className="classes.tool" style={{margin: '0 auto'}} >
-          </Toolbar>
-        </AppBar>
+          <img src={require('../components/common/logo_360.svg')} />
+
         <main className={classes.content}>
           <div className={classes.root}>
             <div className={classes.toolbar} />
@@ -165,8 +163,6 @@ class VideoView extends Component {
             </Grid>
           </div>
         </main>
-        <img src={require('../components/common/logo_360.svg')} />
-
       </div>
     )
   }

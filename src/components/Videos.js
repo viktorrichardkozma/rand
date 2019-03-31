@@ -4,7 +4,7 @@ import Moment from 'react-moment';
 
 import {getEvents, validateToken} from '../actions/actions';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from './AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Button from '@material-ui/core/Button';
@@ -81,7 +81,6 @@ class Events extends Component {
   downloadFile = (event) => {
 
     var link = document.createElement('a');
-    console.log(event.target.value)
     link.href = 
     link.download = 'true';
     document.body.appendChild(link);
@@ -107,7 +106,6 @@ class Events extends Component {
     let id = event.currentTarget.getAttribute('value')
     let url ='https://www.facebook.com/sharer/sharer.php?u='+'https://frozen-lake-61201.herokuapp.com/'+this.state.token+"/"+id
     window.location.replace(url)
-    console.log(url)
   }
 
 
@@ -154,55 +152,10 @@ class Events extends Component {
         </Paper>
         </Grid>
         ))) : (<CircularProgress className={classes.progress} size={24}/>)
-
     return (
-
-
-
       <div className={classes.root} style={{backgroundColor:'black'}}>
           <header className="header" id="header" style={{minHeight:'auto'}}>
-              <nav className="mobile-nav">
-                <div className="dropdown_button">
-                  <img className="menu_button" src="images/icon_menu_hamburger.svg" />
-                </div>
-                <div className="drop-down-menu" id="drop-down">
-                  <ul>
-                    <li>
-                      <a href="/#aboutus">RÓLUNK</a>
-                    </li>
-                    <li>
-                      <a href="/#details"> RÉSZLETEK </a>
-                    </li>
-                    <li>
-                      <a href="/#gallery"> GALÉRIA </a>
-                    </li>
-                    <li>
-                      <a href="/#contact"> KAPCSOLAT </a>
-                    </li>
-                    <ul>
-                    </ul></ul></div>
-                <img style={{height: '15px', position: 'relative', top: '-2px', left: '17px'}} className="menu-logo" src="icons/menulogo.svg" />
-              </nav>
-        
-              <div className="menu-logo-wrapper">
-                <img className="menu-logo" src="../icons/menulogo.svg" />
-                <menu>
-                  <ul>
-                    <li>
-                      <a href="/#aboutus">RÓLUNK</a>
-                    </li>
-                    <li>
-                      <a href="/#details"> RÉSZLETEK </a>
-                    </li>
-                    <li>
-                      <a href="/#gallery"> GALÉRIA </a>
-                    </li>
-                    <li>
-                      <a href="/#contact"> KAPCSOLAT </a>
-                    </li>
-                    <ul>
-                    </ul></ul></menu>
-              </div>
+          <AppBar/>
               </header>
           <main className={classes.content}>
             <div className={classes.root}>

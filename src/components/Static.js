@@ -20,12 +20,12 @@ export default class gallery extends Component {
               <div className="row">		
                 <div className="column">
                   <div className="header-social-media-icons">
-                    <a target="_blank" href="https://www.facebook.com/glowria.show/">
+                    <a target="_blank" href="https://www.facebook.com/360selfie.hu/">
                       <img src="icons/facebook.svg" />
                     </a>
                   </div>
                   <div className="header-social-media-icons">
-                    <a target="_blank" href="https://www.instagram.com/glowria.show/">
+                    <a target="_blank" href="https://www.instagram.com/360selfie.hu/">
                       <img src="icons/instagram.svg" />
                     </a>
                   </div>
@@ -232,12 +232,12 @@ export default class gallery extends Component {
                     </div>
                     <div className="social">
                       <div className="footer-social-media-icons">
-                        <a target="_blank" href="https://www.facebook.com/glowria.show/">
+                        <a target="_blank" href="https://www.facebook.com/360selfie.hu/">
                           <img src="icons/facebook.svg" />
                         </a>
                       </div>
                       <div className="footer-social-media-icons">
-                        <a target="_blank" href="https://www.instagram.com/glowria.show/">
+                        <a target="_blank" href="https://www.facebook.com/360selfie.hu/">
                           <img src="icons/instagram.svg" />
                         </a>
                       </div>
@@ -257,3 +257,4 @@ export default class gallery extends Component {
     )
   }
 }
+

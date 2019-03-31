@@ -27,7 +27,7 @@ export default class AppBar extends Component {
                   </li>
                   <ul>
                   </ul></ul></div>
-              <img style={{height: '15px', position: 'relative', top: '-2px', left: '17px'}} className="menu-logo" src="icons/menulogo.svg" />
+              <img style={{height: '15px', position: 'relative', top: '-2px', left: '17px'}} className="menu-logo" src={mainLogo} />
             </nav>
             <div className="header-background-video">
               <video loop="loop" muted="true" autoPlay="autoplay" playsInline="playsinline">

@@ -82,7 +82,7 @@ h1{
 
 .header {
 	color:white;
-	min-height: 100vh;
+	min-height: 95vh;
 	overflow: hidden;
 	position:relative;
 	display:flex;
@@ -173,7 +173,7 @@ header .header-title-wrapper .header-title{
 
 header .header-social-media-icons-wrapper{
 	display:flex;
-	min-height: 100vh;
+	min-height: 95vh;
 }
 
 header .header-social-media-icons-wrapper .header-title-wrapper{
@@ -196,7 +196,7 @@ header .header-social-media-icons-wrapper .header-social-media-icons img{
 
 .projects{
 	background-color:rgb(163,225,198);
-	min-height: 100vh;
+	min-height: 95vh;
 	display:flex;
 	position: relative;
 	z-index:2;

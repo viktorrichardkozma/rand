@@ -4,8 +4,6 @@ import rootReducer from './reducers/combineReducer';
 
 const initialState={}
 
-
-
 const middleware = [thunk];
 
 const store = createStore(

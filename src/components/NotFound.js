@@ -1,11 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-export default class gallery extends Component {
-  render() {
-    return (
-      <div style={{color:'white'}}>
-        Nem található az oldal.
-      </div>
-    )
-  }
-}
+export default ({ staticContext = {} }) => {
+  staticContext.status = 404;
+  return <h1>Oops, nothing here!</h1>;
+};

@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'; 
 import Moment from 'react-moment';
 
-import {getEvents, validateToken} from '../actions/actions';
+import {getEvents} from '../actions/actions';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-
+import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AppBar from './AppBar';
+
+import {FormattedMessage} from 'react-intl'
+
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -18,12 +18,23 @@ import Grid from '@material-ui/core/Grid';
 import { DefaultPlayer as Video } from 'react-html5video';
 import 'react-html5video/dist/styles.css';
 
+import download from './assets/DOWNLOAD.svg'
+import copy from './assets/COPY.svg'
+import share from './assets/SHARE.svg'
+
 import MetaTags from 'react-meta-tags';
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import fileDownload from 'js-file-download'
+
+
+
+import firebase from '@firebase/app';
+import '@firebase/firestore';
+import '@firebase/auth';
+import '@firebase/storage';
 
 
 const styles = theme => ({
-  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3
@@ -38,18 +49,9 @@ const styles = theme => ({
     }, 
     root: {
       flexGrow: 1,
-      height: '100vh'
     },
     toolbar: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing.unit * 3,
-      backgroundColor:'black'
-    },
-    root: {
-        flexGrow: 1,
-        height:'100vh'
-    },
+
     paper: {
         borderRadius:'0px',
         textAlign: 'center',
@@ -57,8 +59,12 @@ const styles = theme => ({
     },
     icons:{
       cursor:'pointer',
-      padding:'10px'
-
+      padding:'10px',
+      height:'60px'
+    },
+    logo:{
+      display:'flex',
+      justifyContent: 'center'
     }
  
 });
@@ -75,34 +81,35 @@ class VideoView extends Component {
     };
   }
 
-  
-  onValidate = () => {
-    let token=this.state.token;
-    let valid = this.props.events.events.some(event => { console.log(event.id+ " " +token); return event.id === token});
-    if(valid){
-      this.props.validateToken(valid, this.props.history)
-    }
-  }
-
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    this.setState({'token': value})
-  };
 
   facebookShare = (event) => {
-    let id =event.currentTarget.getAttribute('value')
-    let url='https://www.facebook.com/sharer/sharer.php?u='+'https://frozen-lake-61201.herokuapp.com/'+this.state.token+"/"+id
+    let id = event.currentTarget.getAttribute('value')
+    let url='https://www.facebook.com/sharer/sharer.php?u='+'https://360selfie.hu/'+this.props.match.params.eventid+"/"+this.props.match.params.timestamp
     window.location.replace(url)
   }
 
-  cancelNewSessionDialog = () => {
-    this.setState({isDialogOpen:false});
-  };
+
+  download = (event) => {
+
+      let downloadLink = event.currentTarget.getAttribute('value')
+   
+    axios({
+       url: downloadLink,
+       method: 'GET',
+       responseType: 'blob', // important
+     }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', '360selfie.mp4'); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+     });
+
+  }
 
   componentDidMount(){
     this.props.getEvents(); 
-    this.setState({token:sessionStorage.getItem('token')});
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -110,57 +117,71 @@ class VideoView extends Component {
       ? {}
       : {events: nextProps.events}
   }
+  
 
   render() {
     const {classes} = this.props;
-    const {eventid,timestamp} = this.props.match.params;
+    const {eventid} = this.props.match.params;
 
     let found = this.props.events.events ? (this.props.events.events).find((event) => {
       return  (event.id === eventid)
     }) : (null)
 
-    let videoURL = found ? (found.items).find((video) => {
-       return  (video.created == timestamp)
-    }) : (null)
+    let videoURL = (found) ? (found.items).find(video => {
+       return (video.created == this.props.match.params.timestamp)
+    }) : null
 
-    let video = videoURL ?
-    (<Video style={{fontSize:'0px', backgroundColor:'white'}} loop muted
+
+    let video = (videoURL) ?
+    (
+    <div>
+      <Video style={{fontSize:'0px', backgroundColor:'white'}} loop muted
       controls={[]}>
       <source src={videoURL.url}  type="video/mp4" />
-      </Video>)
-    : (null)
+      </Video>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div className={classes.icons}  onClick={this.facebookShare}>
+            <img className="actions" src={share}/>
+          </div>
+          <div className={classes.icons} value={videoURL.url} onClick={this.download} >
+              <img className="actions" src={download}/>
+          </div>
+          <div className={classes.icons}> 
+            <CopyToClipboard text={'https://360selfie.hu/'+found.id+"/"+videoURL.created}>
+              <img className="actions" src={copy}/>
+            </CopyToClipboard>
+          </div>
+        </div>
+      </div>
+      )
+    : (<FormattedMessage id="notfound"  defaultMessage="Nem található ez a 360selfie." > </FormattedMessage>)
 
     return (
       <div className={classes.root} style={{backgroundColor:'black'}}>
-         <MetaTags>
-            <title></title>
-            <meta name="description" content={(found)? (found.description):("loading") } />
-            <meta property="og:title" content={(found) ? ("360selfie - " + found.name):("loading") } />
-            <meta property="og:video" content="" />
-          </MetaTags> 
-          <img src={require('../components/common/logo_360.svg')} />
-
+        <MetaTags>
+          <title>{(found) ? ("360selfie | " + found.name): ("360selfie") }</title>
+          <meta name="description" content={(found)? (found.description):("loading") } />
+          <meta property="og:title" content={(found) ? ("360selfie - " + found.name):("loading") } />
+          <meta property="og:image" content={'http://360selfie.hu/icons/logo_360.svg'} />
+        </MetaTags> 
+        <header className="header" id="header" style={{minHeight:'35px'}}>
+          <AppBar/>
+              </header>
         <main className={classes.content}>
           <div className={classes.root}>
             <div className={classes.toolbar} />
             <Grid style={{color:'white',  display:'flex', justifyContent:'center'}} container spacing={24}>
-              <Grid key={video.created} item xs={12} sm={6} lg={3} md={3}>
+              <Grid item xs={12} sm={6} lg={3} md={3}>
                 <Paper className={classes.paper}>
                   {video}
-                  <div style={{padding:'10px', display: 'flex', justifyContent: 'center'}}>
-                    <div className={classes.icons}  value={timestamp} onClick={this.facebookShare}>
-                      <FontAwesomeIcon  icon={['fab', 'facebook']} />
-                    </div>
-                    <div className={classes.icons}> 
-                      <CopyToClipboard text={videoURL ? ('https://frozen-lake-61201.herokuapp.com/'+eventid+"/"+timestamp): ('https://frozen-lake-61201.herokuapp.com/')}>
-                          <FontAwesomeIcon icon={['fas', 'copy']} />
-                      </CopyToClipboard>
-                    </div>
-                  </div>
-
+         
                 </Paper>
               </Grid>
+            
             </Grid>
+            <div className={classes.logo}>
+            <img style={{padding:'30px', height: '200px', width: '200px' }} src={require('../components/common/360.gif')} />
+          </div>
           </div>
         </main>
       </div>
@@ -172,8 +193,7 @@ const mapStateToProps = state => ({
   events: state.events
 })
 
-export default withStyles(styles)(connect(mapStateToProps,{getEvents,
-  validateToken})(VideoView));
+export default withStyles(styles)(connect(mapStateToProps,{getEvents})(VideoView));
 
 
 

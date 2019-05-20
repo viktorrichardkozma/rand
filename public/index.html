@@ -8,15 +8,12 @@
     <link rel="stylesheet" type="text/css" href="css/animate.css" />
     <link rel="shortcut icon" href="/favicon.ico" /> 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" />		
-    <meta name="description" content="Unique light art production for special events." />
-    <meta name="keywords" content="Lightart, light, art, fluorescent,luminescent,phosphorescent, paint, painting, green,  darkness, performance, show, live, action, effects, audiance, athmosphere, fantasy world" />
+    <meta name="description" content="360selfie.hu hivatalos oldala" />
+    <meta name="keywords" content="360selfie, selfie, fotó, facebook" />
     <meta charSet="UTF-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" href="/css/video-react.css" />
-
-    <meta property="og:image" content />
-   
-
+    
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -54,9 +51,84 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
-  <script src="js/main.js"></script>
 
  <script>
+
+
+      // $("#sendbutton").click(function(){
+      //   window.location.href = mailto;
+      // });
+
+      
+    
+      var extended=true;
+
+
+    /*menu*/
+    $( ".menu_button" ).click(function() {
+        if(extended){
+          $(".drop-down-menu").css("visibility",'visible');
+          document.getElementById("drop-down").style.top = "50px";
+          extended=false;
+        } else {
+          $(".drop-down-menu").css("visibility",'hidden');
+          extended=true;
+        }
+      });
+
+
+      function close(){
+          $(".error-box-close").click(function(){			
+          $('.errorwrapper').css("visibility","hidden");
+        });	
+      }
+
+      
+    $("#sendbutton").click(function(){
+
+        
+      var firstname = document.getElementsByName("firstname")[0].value;
+      var lastname = document.getElementsByName("lastname")[0].value;
+      var eventname= document.getElementsByName("eventname")[0].value;
+      var mail = document.getElementsByName("mail")[0].value;
+      var phone = document.getElementsByName("phone")[0].value;
+      var eventdate= document.getElementsByName("eventdate")[0].value;
+      var message = document.getElementsByName("message")[0].value;
+
+    if (firstname==null || firstname=="",mail==null || mail=="",phone==null || phone=="",message==null || message=="",eventname==null || eventname=="", eventdate==null || eventdate=="", lastname==null || lastname==""){
+          $('.allthefields').html("All fields are required. <div class=\"error-box-close\">X</div>");
+          $('.errorwrapper').css("visibility","visible");
+          close();
+        } else {
+          let data = {
+            firstname: firstname,
+            lastname: lastname,
+            eventname: eventname,
+            mail: mail,
+            phone: phone,
+            eventdate:eventdate,
+            message: message
+          }
+          console.log(data)
+
+          $.ajax('https://360-selfie.now.sh/send-mail',{
+            'data': JSON.stringify(data), 
+            'type': 'POST',
+            'processData': false,
+            'contentType': 'application/json',               
+            }
+          ).done(function(data) {
+       
+            $('.contact-subsection-left-wrapper').css("color","white");
+            $('.contact-subsection-left-wrapper').css("padding","150px 0px");
+
+            $('.contact-subsection-left-wrapper').css("display","flex");
+            $('.contact-subsection-left-wrapper').css("align-items","center");
+            $('.contact-subsection-left-wrapper').css("justify-content","center");
+            $('.contact-subsection-left-wrapper').html("E-mail elküldve.");            })
+
+          }
+        });
 
 
   
@@ -66,8 +138,6 @@
     if(document.getElementById("spinning-logo")){
      logo=document.getElementById("spinning-logo")
     }
-     console.log(logo)
-
   });
 
     $(document).scroll(function() {

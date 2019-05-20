@@ -2,26 +2,26 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'; 
 import Moment from 'react-moment';
 
-import {getEvents, validateToken} from '../actions/actions';
+import {FormattedMessage} from 'react-intl'
+
+import {getEvents} from '../actions/actions';
 import FormDialog from './Dialog'
 
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import AppBar from './AppBar'
-import Toolbar from '@material-ui/core/Toolbar';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import MetaTags from 'react-meta-tags';
 
-import Paper from '@material-ui/core/Paper';
+
+
 import Grid from '@material-ui/core/Grid';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
@@ -54,7 +54,6 @@ const styles = theme => ({
     }
 });
 
-
 class Events extends Component {
   constructor(props){
     super(props);
@@ -66,7 +65,7 @@ class Events extends Component {
     };
   }
 
-  handleInputChange = event => {
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     this.setState({'token': value})
@@ -93,28 +92,25 @@ class Events extends Component {
   }
 
   render() {
+
+
     const {classes} = this.props;
     let eventsContent= (this.props.events.events) ? (this.props.events.events.map(event =>(
       <Grid key={event.id} item xs={12} sm={4} md={3} lg={2}>
         <Card className={classes.card}>
         <CardActionArea style={{cursor:'pointer'}} id={event.id} onClick={this.openNewSessionDialog} >
-          <CardMedia
-            className={classes.media}
-            image={event.thumbnailURL}
-            title={event.name}
-          />
+         
           <CardContent style={{backgroundColor:'#a3e1c6',color:'white'}}>
             <Typography gutterBottom variant="h5" component="h2" style={{color:'white'}}>
             <b> {event.name}</b>
             </Typography>
-            <Typography component="p" style={{color:'white'}}>
-            {event.description}
-            </Typography>
+       
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button style={{cursor:'pointer'}} id={event.id} onClick={this.openNewSessionDialog} color="primary">
-            Megtekintés
+          <FormattedMessage id="check"  defaultMessage="MEGTEKINTÉS" >
+                    </FormattedMessage>
           </Button>
         </CardActions>
       </Card>
@@ -124,16 +120,14 @@ class Events extends Component {
     return (
 
 
+
       <div className={classes.root} style={{backgroundColor:'black'}}>
 
 
-
-
-
-
-
-
-
+        <MetaTags>
+          <title>{"360selfie | " + (this.props.locale.lang=="hu") ? ("Események") : ("Events") }</title>
+          <meta property="og:image" content={'http://360selfie.hu/icons/logo_360.svg'} />
+        </MetaTags> 
 <header className="header" id="header" style={{minHeight:'auto'}}>
 <AppBar/>
 
@@ -143,8 +137,7 @@ class Events extends Component {
         <Grid container spacing={12} >
 
           <main className={classes.content}>
-          <Typography style={{color:'white',padding:'20px 0px 10px 0px',textAlign: 'center'}}variant="h6" > <b>KORÁBBI ESEMÉNYEINK </b></Typography>
-
+          <Typography style={{color:'white',padding:'20px 0px 10px 0px',textAlign: 'center'}} variant="h6" > <b> {(this.props.locale.lang=="hu") ? ("Események") : ("Events") } </b></Typography>
             <div className={classes.eventsContent}>
               {eventsContent}
             </div>
@@ -157,11 +150,11 @@ class Events extends Component {
 }
 
 const mapStateToProps = state => ({
-  events: state.events
+  events: state.events,
+  locale: state.locale
 })
 
-export default withStyles(styles)(connect(mapStateToProps,{getEvents,
-  validateToken})(Events));
+export default withStyles(styles)(connect(mapStateToProps,{getEvents})(Events));
 
 
 

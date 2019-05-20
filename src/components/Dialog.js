@@ -12,14 +12,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import {getEvents, validateToken} from '../actions/actions';
 import {connect} from 'react-redux'; 
-
-
+import {FormattedMessage} from 'react-intl'
 
 const styles = theme => ({
   container: {
@@ -56,20 +50,26 @@ class FormDialog extends Component {
 
   }
 
-
   onValidate = () => {
     let token=this.state.token;
-    let valid = this.props.events.events.some(event => { console.log(event.id+ " " +token); return event.id === token});
+    let valid = this.props.events.events.some(event => { return event.id === token});
     if(valid){
-        sessionStorage.setItem('token', this.state.token);
-        this.props.history.push('/events/videos')
-        this.setState({invalid:false})
+      
+      
+      this.props.history.push({
+        pathname: 'events/videos',
+        state: {
+          token: token
+        }
+      })
+
     } else {
         this.setState({invalid:true})
     }
   }
 
-  handleInputChange = event => {
+
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     this.setState({'token': value})
@@ -90,8 +90,8 @@ class FormDialog extends Component {
         label="Token"
         margin="normal"
         value={this.state.token}
-        error={ "Hibás token"}
-        helperText={"Nem megfelelő a hozzáférési token, próbáld újra!"}
+        error={ (this.props.locale.lang==="hu") ? ("Hibás token") : ("Token error") }
+        helperText={(this.props.locale.lang==="hu") ? ("Nem megfelelő a hozzáférési token, próbáld újra!") : ("Try again!") }
         onChange={this.handleInputChange}
     /> )  : ( 
      <TextField
@@ -112,10 +112,13 @@ class FormDialog extends Component {
     open={true}
     aria-labelledby="form-dialog-title"
   >
-  <DialogTitle id="form-dialog-title">Belépés</DialogTitle>
+  <DialogTitle id="form-dialog-title"> 
+      { (this.props.locale.lang==="hu") ? ("Belépés!") : ("Sign in!") } 
+
+   </DialogTitle>
   <DialogContent>
       <Typography variant="p" color="inherit">
-            Írd be az eseményen kapott tokent a videók megtekintéséhez!
+      { (this.props.locale.lang==="hu") ? ("Írd be az eseményen kapott tokent a videók megtekintéséhez!") : ("Type that token what you got on the event!") } 
       </Typography>
       <FormGroup>
     {innerContent}
@@ -123,25 +126,22 @@ class FormDialog extends Component {
       </FormGroup>
   </DialogContent>
   <DialogActions>
-    <Button onClick={this.props.onClose} color="primary">
-      bezár
+    <Button onClick={this.props.onClose} style={{color:'black'}}>
+    <FormattedMessage id="close"  defaultMessage="close" > </FormattedMessage>
     </Button>
-    <Button onClick={this.onValidate} variant="contained" color="primary">
-      megerősít
+    <Button onClick={this.onValidate} variant="contained" style={{color:'black'}}>
+    <FormattedMessage id="submit"  defaultMessage="submit" > </FormattedMessage>
     </Button>
   </DialogActions>
 </Dialog>
-
-
-
     </div>
   )
 }
 }
-
 const mapStateToProps = state => ({
-  events: state.events
+  events: state.events,
+  locale: state.locale
 })
 
 export default withStyles(styles)(connect(mapStateToProps,{
-  validateToken})(FormDialog));
+})(FormDialog));

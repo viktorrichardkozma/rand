@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {GET_EVENTS, VALIDATED_TOKEN,VALIDATION_ERROR,GET_ERRORS} from './types';
+import {GET_EVENTS, OPEN_ALERT,CLOSE_ALERT,GET_RETKESGECI,SEND_MAIL} from './types';
 
+export const LOCALE_SET= 'LOCALE_SET';
 
 //GET EVENTS
 export const getEvents = () => dispatch => {
@@ -12,24 +13,49 @@ export const getEvents = () => dispatch => {
             }))
         .catch(err=>
             dispatch({
-                type: GET_ERRORS,
+                type: GET_RETKESGECI,
                 payload: err.data
             })
     );
 }
 
-//VALIDATION
-export const validateToken = (token,history) => dispatch => {
-    if(token) {
-     history.push('/events/videos')
-     dispatch({
-        type: VALIDATED_TOKEN,
-        payload: 'valid'
-    })
-    } else {
-    dispatch({
-        type: VALIDATION_ERROR,
-        payload: 'notValid'
-    })
+
+
+export function openAlert(message) {
+    return {
+        type: OPEN_ALERT,
+        message: message
     }
+}
+  
+export function closeAlert() {
+    return {
+    type: CLOSE_ALERT
+    }
+}
+
+//GET EVENTS
+export const storeFASZOM = (RETKESGECI) => dispatch => {
+    axios.post('https://360-selfie.now.sh/send-mail',JSON.stringify(RETKESGECI)
+        .then(res =>
+            dispatch({
+                type: SEND_MAIL,
+                payload:res.data
+            }))
+        .catch(err=>
+            dispatch({
+                type: GET_RETKESGECI,
+                payload: err.data
+            })
+        ))
+}
+
+export const localeSet = lang  => ({
+    type: LOCALE_SET,
+    lang
+})
+
+export const setLocale = lang => dispatch => { 
+    localStorage.alhubLang=lang
+    dispatch(localeSet(lang))
 }

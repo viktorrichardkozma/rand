@@ -1,19 +1,29 @@
+/*global $*/
+/*global WOW*/
+
 import React, { Component } from 'react'
 import {connect} from 'react-redux'; 
 import Moment from 'react-moment';
 
-import {getEvents, validateToken} from '../actions/actions';
+import {getEvents} from '../actions/actions';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from './AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios'
+
+
+import download from './assets/DOWNLOAD.svg'
+import copy from './assets/COPY.svg'
+import share from './assets/SHARE.svg'
+
+import MetaTags from 'react-meta-tags';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { DefaultPlayer as Video } from 'react-html5video';
 import 'react-html5video/dist/styles.css';
@@ -59,79 +69,87 @@ const styles = theme => ({
       progress: {
         margin: theme.spacing.unit * 2,
         color: "#A3E1D4"
-      }, icons:{
+      },
+      icons:{
         cursor:'pointer',
-        padding:'10px'
-        
+        padding:'10px',
+        height:'60px'
       }
 });
 
-class Events extends Component {
+class Videos extends Component {
   constructor(props){
     super(props);
     this.state={
         isDialogOpen: false,
+        errors:null,
         token:'',
-        name:'',
-        play:''
+        name:''
     };
   }
 
+  componentDidMount(){
+    this.props.getEvents(); 
+    
+    window.onload = () => {
+      var extended=true;
+      var onclicked;
+      var logo;
 
-  downloadFile = (event) => {
+      /*menu*/
+      $( ".menu_button" ).click(function() {
+        if(extended){
+          $(".drop-down-menu").css("visibility",'visible');
+          document.getElementById("drop-down").style.top = "50px";
+          extended=false;
+        } else {
+          $(".drop-down-menu").css("visibility",'hidden');
+          extended=true;
+        }
+      });
+  }
+}
 
-    var link = document.createElement('a');
-    link.href = 
-    link.download = 'true';
+download = (event) => {
+
+  let downloadLink = event.currentTarget.getAttribute('value')
+
+axios({
+   url: downloadLink,
+   method: 'GET',
+   responseType: 'blob', // important
+ }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', '360selfie.mp4'); //or any other extension
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
- };
+ });
 
-  onValidate = () => {
-    let token=this.state.token;
-    let valid = this.props.events.events.some(event => { console.log(event.id+ " " +token); return event.id === token});
-    if(valid){
-      this.props.validateToken(valid, this.props.history)
-    }
+}
+
+  
+  shouldComponentUpdate(nextProps,nextState) {
+
+    if(nextProps!==this.props)
+      return true
+
+    if(nextState!==this.state)
+      return true
+
   }
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.value;
-    this.setState({'token': value})
-  };
-
   facebookShare = (event) => {
-    let id = event.currentTarget.getAttribute('value')
-    let url ='https://www.facebook.com/sharer/sharer.php?u='+'https://frozen-lake-61201.herokuapp.com/'+this.state.token+"/"+id
+    let id =event.currentTarget.getAttribute('value')
+    let url='https://www.facebook.com/sharer/sharer.php?u='+'https://360selfie.hu/'+this.props.location.state.token+"/"+id
     window.location.replace(url)
   }
 
-
-  openNewSessionDialog = () => {
-    this.setState({isDialogOpen:true});   
-  }
-
-  cancelNewSessionDialog = () => {
-    this.setState({isDialogOpen:false});
-  };
-
-  componentDidMount(){
-    this.props.getEvents(); 
-    this.setState({token:sessionStorage.getItem('token')});
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return nextProps.events === prevState.events
-      ? {}
-      : {events: nextProps.events}
-  }
-
   render() {
-    const {classes} = this.props;
-    let found = this.props.events.events ? (this.props.events.events).find((event) => (event.id === this.state.token)) : (null)
-    let name = found ? (found.name) : ("loading")
+    const {classes} = this.props
+    let found = this.props.events.events ? (this.props.events.events).find((event) => (event.id == this.props.location.state.token)) : (null)
+    let name = found ? (found.name) : (" ")
 
     let videos = found ? (found.items.map((video) => (
       <Grid key={video.created} item xs={12} sm={3} lg={3} md={3}>
@@ -139,22 +157,32 @@ class Events extends Component {
             <Video style={{fontSize:'0px', backgroundColor:'white'}} loop muted controls={[]}>
                 <source src={video.url} type="video/mp4" />
             </Video>
-            <div style={{padding:'10px', display: 'flex', justifyContent: 'center'}}>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
               <div className={classes.icons}  value={video.created} onClick={this.facebookShare}>
-                <FontAwesomeIcon  icon={['fab', 'facebook']} />
+                <img className="actions" src={share}/>
+              </div>
+              <div className={classes.icons} value={video.url} onClick={this.download} >
+              <img className="actions" src={download}/>
               </div>
               <div className={classes.icons}> 
-                <CopyToClipboard text={'https://frozen-lake-61201.herokuapp.com/'+found.id+"/"+video.created}>
-                    <FontAwesomeIcon icon={['fas', 'copy']} />
+                <CopyToClipboard text={'https://360selfie.hu/'+found.id+"/"+video.created}>
+                  <img className="actions" src={copy}/>
                 </CopyToClipboard>
               </div>
             </div>
         </Paper>
         </Grid>
         ))) : (<CircularProgress className={classes.progress} size={24}/>)
+
     return (
+     
+  
       <div className={classes.root} style={{backgroundColor:'black'}}>
-          <header className="header" id="header" style={{minHeight:'150px'}}>
+          <MetaTags>
+            <title>{(found) ? ("360selfie | " + found.name): ("360selfie")}</title>
+            <meta property="og:image" content={'http://360selfie.hu/icons/logo_360.svg'} />
+          </MetaTags> 
+          <header className="header" id="header" style={{minHeight:'35px'}}>
           <AppBar/>
               </header>
           <main className={classes.content}>
@@ -165,16 +193,20 @@ class Events extends Component {
             </div>
           </main>
       </div>
+
     )
   }
 }
 
+
+
 const mapStateToProps = state => ({
-  events: state.events
+  events: state.events,
+  locale:state.locale
 })
 
-export default withStyles(styles)(connect(mapStateToProps,{getEvents,
-  validateToken})(Events));
+
+export default withStyles(styles)(connect(mapStateToProps,{getEvents})(Videos));
 
 
 

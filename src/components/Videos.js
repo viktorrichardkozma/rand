@@ -16,7 +16,6 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios'
 
-
 import download from './assets/DOWNLOAD.svg'
 import copy from './assets/COPY.svg'
 import share from './assets/SHARE.svg'
@@ -90,24 +89,6 @@ class Videos extends Component {
 
   componentDidMount(){
     this.props.getEvents(); 
-    
-    window.onload = () => {
-      var extended=true;
-      var onclicked;
-      var logo;
-
-      /*menu*/
-      $( ".menu_button" ).click(function() {
-        if(extended){
-          $(".drop-down-menu").css("visibility",'visible');
-          document.getElementById("drop-down").style.top = "50px";
-          extended=false;
-        } else {
-          $(".drop-down-menu").css("visibility",'hidden');
-          extended=true;
-        }
-      });
-  }
 }
 
 download = (event) => {

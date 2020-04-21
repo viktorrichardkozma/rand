@@ -37,7 +37,6 @@ const styles = theme => ({
   }
 });
 
-
 class FormDialog extends Component {
   constructor(props){
     super(props);

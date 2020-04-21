@@ -1,3 +1,6 @@
+/*global $*/
+/*global WOW*/
+
 import React, { Component } from 'react'
 import {connect} from 'react-redux'; 
 import Moment from 'react-moment';
@@ -10,7 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AppBar from './AppBar';
 
 import {FormattedMessage} from 'react-intl'
-
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -26,13 +28,7 @@ import MetaTags from 'react-meta-tags';
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 
-
-
-import firebase from '@firebase/app';
-import '@firebase/firestore';
-import '@firebase/auth';
-import '@firebase/storage';
-
+import './common/main.css';
 
 const styles = theme => ({
   content: {
@@ -87,7 +83,6 @@ class VideoView extends Component {
     let url='https://www.facebook.com/sharer/sharer.php?u='+'https://360selfie.hu/'+this.props.match.params.eventid+"/"+this.props.match.params.timestamp
     window.location.replace(url)
   }
-
 
   download = (event) => {
 
@@ -154,7 +149,7 @@ class VideoView extends Component {
         </div>
       </div>
       )
-    : (<FormattedMessage id="notfound"  defaultMessage="Nem található ez a 360selfie." > </FormattedMessage>)
+    : (<div > </div>)
 
     return (
       <div className={classes.root} style={{backgroundColor:'black'}}>
@@ -164,24 +159,17 @@ class VideoView extends Component {
           <meta property="og:title" content={(found) ? ("360selfie - " + found.name):("loading") } />
           <meta property="og:image" content={'http://360selfie.hu/icons/logo_360.svg'} />
         </MetaTags> 
-        <header className="header" id="header" style={{minHeight:'35px'}}>
-          <AppBar/>
-              </header>
         <main className={classes.content}>
-          <div className={classes.root}>
-            <div className={classes.toolbar} />
             <Grid style={{color:'white',  display:'flex', justifyContent:'center'}} container spacing={24}>
               <Grid item xs={12} sm={6} lg={3} md={3}>
                 <Paper className={classes.paper}>
                   {video}
-         
                 </Paper>
               </Grid>
             
             </Grid>
             <div className={classes.logo}>
             <img style={{padding:'30px', height: '200px', width: '200px' }} src={require('../components/common/360.gif')} />
-          </div>
           </div>
         </main>
       </div>

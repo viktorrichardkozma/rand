@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import messages from './messages'
 import AppIntl from './AppIntl'
 
+import {init as firebaseInit} from './Firebase'
+
 import {
   createBrowserHistory,
 } from 'history'
@@ -60,21 +62,21 @@ const theme = createMuiTheme({
 let history = createBrowserHistory()
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    firebaseInit()
+  }
   render() {
 
     return (
 
         <MuiThemeProvider theme={theme}>
           <Provider store={store}>
-
-          <div className="App">
-            <AppIntl/>
-          </div>
-
+            <div className="App">
+              <AppIntl/>
+            </div>
           </Provider>
         </MuiThemeProvider>
-
-
     );
   }
 }

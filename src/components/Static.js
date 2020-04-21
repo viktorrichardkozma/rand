@@ -17,7 +17,73 @@ import {FormattedMessage} from 'react-intl'
 import './common/main.css'
 import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 
+import {getEvents} from '../actions/actions';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import axios from 'axios'
+
+import download from './assets/DOWNLOAD.svg'
+import copy from './assets/COPY.svg'
+import share from './assets/SHARE.svg'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { DefaultPlayer as Video } from 'react-html5video';
+import 'react-html5video/dist/styles.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const styles = theme => ({
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+    card: {
+      margin:'15px',
+      color: '#A3E2C6',
+      backgroundColor:'white',
+      width:'250px'
+    },
+    media: {
+      height: 140,
+    }, 
+    root: {
+      flexGrow: 1,
+      height: '100vh',
+      backgroundColor:'black'
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing.unit * 3,
+      backgroundColor:'black'
+    }
+      ,root: {
+        flexGrow: 1,
+      },
+      paper: {
+        borderRadius:'0px',
+        textAlign: 'center',
+        color: 'black'
+      },
+      progress: {
+        margin: theme.spacing.unit * 2,
+        color: "#A3E1D4"
+      },
+      icons:{
+        cursor:'pointer',
+        padding:'10px',
+        height:'60px'
+      }
+});
+
  class HomePage extends Component {
+   
 
 
   onChange = (e) => {
@@ -61,10 +127,23 @@ import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
           kikurtlolli.style.transform="translateY(-" + offset + "px)";
         }
       });
+
+      var figure = $(".small_video").hover( hoverVideo, hideVideo );
+
+      function hoverVideo(e) {  
+          $('video', this).get(0).play(); 
+      }
+      
+      function hideVideo(e) {
+          $('video', this).get(0).pause(); 
+      }
+
     };
   }
 
   render() {
+    const {classes} = this.props
+
     return (
         <div>
         <MetaTags>
@@ -268,28 +347,53 @@ import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
             </div>
           </div>
         </section>
-        <section style={{paddingTop:'90px',position: 'relative', zIndex:'1'}} className="contact" >
+        <section style={{position: 'relative', zIndex:'1'}} className="contact" id="contact">
           <div className="part-title">
             <div className="title">
               
               <FormattedMessage id="contacttitle"  defaultMessage="KAPCSOLAT" >
-                    </FormattedMessage>
+              </FormattedMessage>
             </div>
           </div>
           <div className="part-content">
-            {/* <div className="quarter-border" /> */}
-            <h2>
-             
-              <FormattedMessage id="writeus"  defaultMessage=" ÍRJ NEKÜNK!" >
-                    </FormattedMessage>
-            </h2>
-            <div className="contact-description">
-            <FormattedMessage id="writeusdetail"  defaultMessage="Kérj ajánlatot az alábbiak kitöltésével és mi hamarosan felvesszük veled a kapcsolatot." >
-                    </FormattedMessage>
-     
+           <div className="contact-video" >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:'33%'}}>
+                  <div className="small_video">
+                    <video  loop="loop" muted="true"  playsInline="playsinline">
+                      <source src="https://firebasestorage.googleapis.com/v0/b/selfie-10b2c.appspot.com/o/left.mp4?alt=media" type="video/mp4" />
+                    </video>
+                  </div>
+                </div>
+                <div   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',width:'33%'}}>
+                  <div className="small_video">
+                    <video loop="loop" muted="true"  playsInline="playsinline">
+                      <source src="https://firebasestorage.googleapis.com/v0/b/selfie-10b2c.appspot.com/o/middle.mp4?alt=media" type="video/mp4" />
+                    </video>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',width:'33%'}}>
+                  <div className="small_video">
+                    <video  loop="loop" muted="true"  playsInline="playsinline">
+                      <source src="https://firebasestorage.googleapis.com/v0/b/selfie-10b2c.appspot.com/o/right.mp4?alt=media" type="video/mp4" />
+                    </video>
+                  </div>
+                </div>
             </div>
             <div className="contact-subsection">
               <div className="contact-subsection-left">
+                 {/* <div className="quarter-border" /> */}
+                 <div className="contact-title-wrapper">
+            <h2  style={{textAlign:'center'}}>
+             
+             <FormattedMessage id="writeus"  defaultMessage=" ÍRJ NEKÜNK!" >
+                   </FormattedMessage>
+           </h2>
+           <div className="contact-description">
+           <FormattedMessage id="writeusdetail"  defaultMessage="Kérj ajánlatot az alábbiak kitöltésével és mi hamarosan felvesszük veled a kapcsolatot." >
+                   </FormattedMessage>
+    
+           </div>
+           </div>
                 <div className="contact-subsection-left-wrapper">
                   <form>
                     <div className="input-row">
@@ -335,11 +439,12 @@ import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
         </section>
         <footer>
-          <div className="border" id="contact">
+          <div className="border" >
             <div className="footer-content-wrapper">
               <div className="logo">
                 <img className="footer-logo" src="icons/logo_footer.svg" />
@@ -357,12 +462,12 @@ import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
                   <div className="social">
                     <div className="footer-social-media-icons">
                       <a target="_blank" href="https://www.facebook.com/360selfiehu/">
-                        <img src="icons/facebook.svg" />
+                        <img src="./facebook.svg" />
                       </a>
                     </div>
                     <div className="footer-social-media-icons">
                       <a target="_blank" href="https://www.instagram.com/360selfiehu/">
-                        <img src="icons/instagram.svg" />
+                        <img src="./instagram.svg" />
                       </a>
                     </div>
                   
@@ -387,7 +492,7 @@ const mapStateToProps = state => ({
 })
 
 
-export default (connect(mapStateToProps,{storeFASZOM})(HomePage));
+export default withStyles(styles)(connect(mapStateToProps,{storeFASZOM})(HomePage));
 
 
 

@@ -87,7 +87,7 @@ h1{
 	position:relative;
 	display:flex;
 	flex-direction: column;
-	z-index:1;
+	z-index:4;
 	background: #000000;
 }
 
@@ -436,9 +436,8 @@ header .header-social-media-icons-wrapper .header-social-media-icons img{
 
 .contact-subsection .contact-subsection-left{
 	width:100%;
-	display:flex;
 	justify-content:center;
-	padding: 0 20%;
+	padding: 0 10%;
 }
 
 .contact-subsection .contact-subsection-left-wrapper{
@@ -607,14 +606,36 @@ footer .footer-content-wrapper .icons{
 	
 }
 
+.small_video{
+	cursor:pointer;
+}
+
+.contact{
+	padding-top:0px
+}
+
+.contact-video{
+	display:flex;
+
+}
+
+.contact-video video{
+	height:500px;
+	padding:10%;
+}
 
 @media (max-width:1100px){
 	.details .part-content .how-to{
 		padding: 150px 80px;
-
 	}
+	
 }
 @media (max-width:700px){
+
+
+	.contact-video{
+		display:none;
+	}
 
 	.input-row{
 		flex-wrap: wrap;

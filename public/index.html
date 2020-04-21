@@ -2,11 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <title> 360selfie.hu </title>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/animate.css" />
-    <link rel="shortcut icon" href="/favicon.ico" /> 
+    <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/selfie-10b2c.appspot.com/o/favicon.ico?alt=media" /> 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" />		
     <meta name="description" content="360selfie.hu hivatalos oldala" />
     <meta name="keywords" content="360selfie, selfie, fotó, facebook" />
@@ -75,6 +74,13 @@
           extended=true;
         }
       });
+
+      $( ".menu_element" ).click(function() {
+     
+          $(".drop-down-menu").css("visibility",'hidden');
+    
+      });
+
 
 
       function close(){

@@ -19,6 +19,7 @@ import Static from './components/Static'
 import Events from './components/Events'
 import Videos from './components/Videos'
 import VideoView from './components/VideoView'
+import Admin from './components/Admin'
 
 import store from './store'
 import NotFound from './components/NotFound'
@@ -33,14 +34,13 @@ import './index.css';
 addLocaleData(en)
 addLocaleData(hu)
 
-
 store.dispatch(localeSet('hu'))
 
 let history = createBrowserHistory()
 
 if(localStorage.alhubLang) 
-{ store.dispatch(localeSet(localStorage.alhubLang))
-
+{ 
+  store.dispatch(localeSet(localStorage.alhubLang))
 }
 
 class AppIntl extends Component {
@@ -58,6 +58,7 @@ class AppIntl extends Component {
                 <Route exact path="/events/" component={Events} />
                 <Route exact path="/events/videos" component={Videos} />
                 <Route exact path="/:eventid/:timestamp" component={VideoView} />
+                <Route component={Admin} />
                 <Route component={NotFound} />
               </Switch>
             </Router>

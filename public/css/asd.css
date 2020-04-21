@@ -87,7 +87,7 @@ h1{
 	position:relative;
 	display:flex;
 	flex-direction: column;
-	z-index:1;
+	z-index:4;
 	background: #000000;
 }
 
@@ -121,7 +121,7 @@ header .menu-logo-wrapper{
 
 /*menu*/
 
-header menu{
+menu{
 	width:100%;
 	display: flex;
 	justify-content: flex-end;
@@ -131,34 +131,34 @@ header menu{
 }
 
 
-header .menu-logo{
+.menu-logo{
 	width: 12%;
 }
 
-header menu ul{
+menu ul{
 	display:flex;
 	justify-content:center;
 }
 
-header menu ul li{
+menu ul li{
 	flex-direction: row;
 	padding:0 40px 0 40px;
 	color:white;
 	list-style-type: none;
 }
 
-header menu ul li:hover a{
+menu ul li:hover a{
 	border-bottom:1px solid #fff;
 }
 
 
 
-header .header-logo{
+.header-logo{
 	width: 200px
 }
 
 
-header .header-title-wrapper .header-title{
+.header-title-wrapper .header-title{
 	font-size:5em;
 }
 
@@ -436,7 +436,6 @@ header .header-social-media-icons-wrapper .header-social-media-icons img{
 
 .contact-subsection .contact-subsection-left{
 	width:100%;
-	display:flex;
 	justify-content:center;
 	padding: 0 20%;
 }
@@ -613,9 +612,14 @@ footer .footer-content-wrapper .icons{
 		padding: 150px 80px;
 
 	}
+
 }
 @media (max-width:700px){
 
+	.contact-video{
+		display:none;
+	}
+	
 	.input-row{
 		flex-wrap: wrap;
 		}
@@ -624,7 +628,7 @@ footer .footer-content-wrapper .icons{
 			padding:0 10%;
 		}
 
-	header .header-social-media-icons-wrapper .header-title-wrapper{
+	.header-social-media-icons-wrapper .header-title-wrapper{
 		padding:0;
 		width:100%;
 	}
@@ -640,11 +644,11 @@ footer .footer-content-wrapper .icons{
 		height:100%;
 	}
 	
-	header menu, header .menu-logo-wrapper, header .header-background-video{
+	.menu, .menu-logo-wrapper, .header-background-video{
 		display:none;
 	}
 
-	header .menu-logo{
+	.menu-logo{
 		width: auto;
 	}
 	
